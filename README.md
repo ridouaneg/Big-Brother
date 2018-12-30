@@ -17,6 +17,7 @@ Big Brother est un algorithme de reconnaissance faciale qui fonctionne en plusie
 - opencv-python (pip install opencv-python)
 - dlib (pip install dlib)
 - h5py (pip install h5py)
+- mtcnn (pip install mtcnn)
 1. Clone the repo
 2. Add images in the known_peoples folder : each image should represent ONE person, with the name of this person as name of the image
 3. Launch preprocessing.py : this will create files in the datasets folder (known_peoples.hdf5 and known_peoples_names.txt)
