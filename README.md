@@ -32,3 +32,6 @@ Big Brother est un algorithme de reconnaissance faciale qui fonctionne en plusie
 (- tracking basé sur le mouvement ?)
 (- objectif initial de bigbro : pedestrian recognition)
 (- améliorer le tracking : filtrage, MCMCDA)
+
+### Our team
+![alt text](https://raw.githubusercontent.com/ridouaneg/Big-Brother/master/ressources/unknown_peoples/image1.jpg)
