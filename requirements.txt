@@ -1,7 +1,0 @@
-os
-pkg_resources
-numpy
-
-h5py
-opencv-python
-dlib
