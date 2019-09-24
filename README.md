@@ -11,11 +11,11 @@ The pipeline is as follows :
 
 image -> face detection, landmarks estimation -> feature extraction -> matching with database features
 
-Face detection : HOG, MTCNN, RetinaFace (soon)
-Facial landmarks estimation : dlib algorithms
-Feature extraction : FaceNet, ArcFace (soon)
-Tracking : opencv algorithms
-Matching : L2 distance, Hungarian algorithm
+- Face detection : HOG, MTCNN, RetinaFace (soon)
+- Facial landmarks estimation : dlib algorithms
+- Feature extraction : FaceNet, ArcFace (soon)
+- Tracking : opencv algorithms
+- Matching : L2 distance, Hungarian algorithm
 
 ## How to use it ?
 0. Requirements :
@@ -39,4 +39,4 @@ Matching : L2 distance, Hungarian algorithm
 - arcface + retinaface
 
 ### Our team
-![alt text](https://raw.githubusercontent.com/ridouaneg/Big-Brother/master/ressources/unknown_peoples/image1.jpg)
+![alt text](https://raw.githubusercontent.com/ridouaneg/Big-Brother/master/data/unknown_peoples/image1.jpg)
