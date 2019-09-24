@@ -1,12 +1,17 @@
 # Big Brother
+
 Facial recognition of people from a video stream.
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/P8l9K7zncbE/0.jpg)](https://youtu.be/P8l9K7zncbE)
 
+
 ## Why Big Brother ?
+
 Big Brother is a school project carried out at the Télécom SudParis (a French engineering school). We have developed a facial recognition system with accurate detection and tracking of faces. Having little knowledge at the beginning, we embarked on this challenge to show what 9 beginners could do in a few months and to warn about the potential dangers of these technologies.
 
+
 ## How it works ?
+
 The pipeline is as follows :
 
 image -> face detection, landmarks estimation -> feature extraction -> matching with database features
@@ -17,7 +22,9 @@ image -> face detection, landmarks estimation -> feature extraction -> matching 
 - Tracking : opencv algorithms
 - Matching : L2 distance, Hungarian algorithm
 
+
 ## How to use it ?
+
 0. Requirements :
 - python 3.X
 - os, pkg_resources, time, PIL, numpy, scipy, pandas
@@ -30,7 +37,9 @@ image -> face detection, landmarks estimation -> feature extraction -> matching 
 4. Launch ./Preprocessing.py : it will create 'dataset.csv' in './data/', this file contains a feature vector for each person in the dataset and the corresponding name
 5. Launch ./Main.py
 
+
 ## To do
+
 - data visualization of the feature space with t-SNE
 - make it work in open database (no pre-defined set of people to recognize)
 - code profiling and optimization to real-time (jit, cuda, c++)
@@ -38,5 +47,12 @@ image -> face detection, landmarks estimation -> feature extraction -> matching 
 - mobile/web app (flask?)
 - arcface + retinaface
 
+
 ### Our team
+
 ![alt text](https://raw.githubusercontent.com/ridouaneg/Big-Brother/master/data/unknown_peoples/image1.jpg)
+
+
+## Collaboration
+
+This project was achieved as part of Télécom SudParis' GATE project in collaboration with the start-up Watiz.
