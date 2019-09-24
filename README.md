@@ -1,37 +1,42 @@
 # Big Brother
-Facial recognition of people from a videostream
+Facial recognition of people from a video stream.
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/P8l9K7zncbE/0.jpg)](https://youtu.be/P8l9K7zncbE)
 
 ## Why Big Brother ?
-Big Brother est un projet effectué dans le cadre du projet GATE de l'école d'ingénieurs française Télécom SudParis. Durant 8 mois, nous étions 9 étudiants à élaborer un système de détection et de reconnaissance d'individus, encadré par un enseignant-chercheur et un entrepreneur. Ne connaissant rien à l'intelligence artificielle, à l'apprentissage profond et au cloud, nous nous somme lancés dans ce défi afin d'acquérir des connaissances. De plus, c'était l'occasion de montrer ce que 9 débutants pouvaient faire en quelques mois et d'alerter sur les dangers potentiels de ces technologies aux mains de professionnels.
+Big Brother is a school project carried out at the Télécom SudParis (a French engineering school). We have developed a facial recognition system with accurate detection and tracking of faces. Having little knowledge at the beginning, we embarked on this challenge to show what 9 beginners could do in a few months and to warn about the potential dangers of these technologies.
 
 ## How it works ?
-Big Brother est un algorithme de reconnaissance faciale qui fonctionne en plusieurs étapes, chacunes utilisant des technologies différentes :
-- une étape de détection faciale -> HOG, MTCNN
-- une étape de reconnaissance faciale -> Facenet
-- une étape de tracking -> Global Nearest Neighbor
+The pipeline is as follows :
+
+image -> face detection, landmarks estimation -> feature extraction -> matching with database features
+
+Face detection : HOG, MTCNN, RetinaFace (soon)
+Facial landmarks estimation : dlib algorithms
+Feature extraction : FaceNet, ArcFace (soon)
+Tracking : opencv algorithms
+Matching : L2 distance, Hungarian algorithm
 
 ## How to use it ?
 0. Requirements :
 - python 3.X
-- numpy
-- opencv-python (pip install opencv-python)
-- dlib (pip install dlib)
-- h5py (pip install h5py)
-- mtcnn (pip install mtcnn)
+- os, pkg_resources, time, PIL, numpy, scipy, pandas
+- opencv -> pip install opencv-python or conda install opencv-python
+- dlib -> pip install dlib or conda install dlib
+- if you want to use MTCNN face detection : mtcnn -> pip install mtcnn or conda install mtcnn
 1. Clone the repo
-2. Add images in the known_peoples folder : each image should represent ONE person, with the name of this person as name of the image
-3. Launch preprocessing.py : this will create files in the datasets folder (known_peoples.hdf5 and known_peoples_names.txt)
-4. Launch webcam_closedbase.py
+2. Download the model weights : http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2 and http://dlib.net/files/dlib_face_recognition_resnet_model_v1.dat.bz2 then unzip and put 'dlib_face_recognition_resnet_model_v1.dat' and 'shape_predictor_68_face_landmarks.dat' in './models/'
+3. Add images in the './data/known_peoples/' : each image should only contain ONE face, with the name of the person as name of the image
+4. Launch ./Preprocessing.py : it will create 'dataset.csv' in './data/', this file contains a feature vector for each person in the dataset and the corresponding name
+5. Launch ./Main.py
 
 ## To do
-- améliorer le tracking : Global Nearest Neighbor
-- reconnaissance faciale par webcam en base ouverte
-- main.py ?
-- rédiger et traduire le readme
-- alternance reconnaissance/tracking : autre qu'aléatoire ?
-(- tracking basé sur le mouvement ?)
-(- objectif initial de bigbro : pedestrian recognition)
-(- améliorer le tracking : filtrage, MCMCDA)
+- data visualization of the feature space with t-SNE
+- make it work in open database (no pre-defined set of people to recognize)
+- code profiling and optimization to real-time (jit, cuda, c++)
+- use binary tree to efficiently process the database
+- mobile/web app (flask?)
+- arcface + retinaface
 
 ### Our team
 ![alt text](https://raw.githubusercontent.com/ridouaneg/Big-Brother/master/ressources/unknown_peoples/image1.jpg)
