@@ -2,7 +2,14 @@ import os
 import pandas as pd
 
 from Util import Util
-from Functions import Functions
+
+
+from models.ObjectDetection import FaceDetector
+from models.FacialLandmarksEstimation import FacialLandmarksEstimator
+from models.FacialRecognition import FacialRecognizer
+face_detector = FaceDetector(model_path='HOG')
+facial_landmarks_estimator = FacialLandmarksEstimator()
+facial_recognizer = FacialRecognizer()
 
 
 data_path = './data/known_peoples'
@@ -19,14 +26,16 @@ for file in os.listdir(data_path):
     image = Util.load_image(os.path.join(data_path, file))
 
     name = file[:-4]
-    encodings = Functions.extract_descriptors(image)
+
+    faces, face_bboxes_confidences = face_detector.predict(image)
+    shapes, _ = facial_landmarks_estimator.predict(image, faces, face_bboxes_confidences)
+    encodings = facial_recognizer.encode(image, faces, shapes)
 
     if len(encodings) == 1:
 
         print(file, 'has been successfully processed.')
         names.append(name)
         descriptors.append(encodings[0])
-        print(encodings[0], type(encodings[0]))
 
     else:
 

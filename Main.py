@@ -21,7 +21,7 @@ known_peoples_names = df['name'].values
 face_detector = FaceDetector(model_path='HOG', input_size=(480, 640, 3), do_timing=True)
 facial_landmarks_estimator = FacialLandmarksEstimator(do_timing=True)
 multi_faces_tracker = MultiObjectTracker(model_path='CSRT', do_timing=True)
-facial_recognizer = FacialRecognizer(known_peoples_descriptors, known_peoples_names)
+facial_recognizer = FacialRecognizer(known_peoples_descriptors, known_peoples_names, do_timing=True)
 
 
 ##### VIDEO PARAMETERS
@@ -40,7 +40,7 @@ if (cap.isOpened() == False):
 
 ###### MAIN LOOP
 frame_number = 0
-pipeline = Pipeline(regime='recognition')
+pipeline = Pipeline(regime='recognition', frequency=1)
 
 # Read until video is completed
 while(cap.isOpened()):
@@ -83,7 +83,7 @@ while(cap.isOpened()):
         pipeline.update(res_face_detection.bounding_boxes, res_facial_landmarks_estimation.facial_landmarks, res_facial_recognition)
 
         pipeline.visualize(image)
-        cv2.putText(image, 'Detection stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+        cv2.putText(image, 'Recognition stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
 
 
     elif pipeline.regime == 'detection':

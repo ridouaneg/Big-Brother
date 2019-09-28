@@ -146,7 +146,8 @@ class FaceDetector(ObjectDetector):
         # save image size
         self.image_size = np.shape(image)
         # resize
-        model_input = cv2.resize(image, (self.input_size[1], self.input_size[0]))
+        #model_input = cv2.resize(image, (self.input_size[1], self.input_size[0]))
+        model_input = image
         return model_input
 
     def model_predict(self, model_input):

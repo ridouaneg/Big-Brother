@@ -14,13 +14,14 @@ class Person:
 
 class Pipeline:
 
-    def __init__(self, humans=[], regime='recognition'):
+    def __init__(self, humans=[], regime='recognition', frequency=12):
         self.humans = humans
         self.regime = regime
         self.frameNr = 0
+        self.frequency = frequency
 
     def update_regime(self):
-        if self.frameNr % 12 == 0:
+        if self.frameNr % self.frequency == 0:
             self.regime = 'recognition'
         else:
             self.regime = 'detection'
