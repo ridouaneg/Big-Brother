@@ -19,19 +19,25 @@ known_peoples_names = df['name'].values
 
 ##### MODELS
 # Set models
-face_detector = FaceDetector(model_path='MTCNN', input_size=(480, 640, 3), do_timing=True)
+face_detector_mtcnn = FaceDetector(model_path='MTCNN', threshold=0.95, input_size=(1080, 1920, 3), do_timing=True)
+face_detector_hog = FaceDetector(model_path='MTCNN', threshold=0.95, input_size=(1080, 1920, 3), do_timing=True)
 facial_landmarks_estimator = FacialLandmarksEstimator(do_timing=True)
 multi_faces_tracker = MultiObjectTracker(model_path='CSRT', do_timing=True)
 facial_recognizer = FacialRecognizer(known_peoples_descriptors, known_peoples_names, do_timing=True)
 
-
 ##### VIDEO PARAMETERS
 # Set configuration
-video_file = 0
-resolution = (640, 480)
+video_file = './test_video.mp4'
+resolution = (1920, 1080)
 
 # Open video file
 cap = cv2.VideoCapture(video_file)
+print('width :', cap.get(3))
+print('height :', cap.get(4))
+print('fps :', cap.get(5))
+
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('./test_video_processed.avi', fourcc, float(cap.get(5)), (int(cap.get(3)), int(cap.get(4))))
 
 # Check if video/camera opened successfully
 if (cap.isOpened() == False):
@@ -65,8 +71,8 @@ while(cap.isOpened()):
         print('     ---- Recognition stage ----     ')
 
         print('Face detection')
-        face_bboxes, face_bboxes_confidences = face_detector.predict(image)
-        res_face_detection = face_detector.get_result()
+        face_bboxes, face_bboxes_confidences = face_detector_hog.predict(image)
+        res_face_detection = face_detector_hog.get_result()
         #face_detector.visualize(image, face_bboxes, face_bboxes_confidences, color=(255, 0, 0))
 
         print('Initialize tracking...')
@@ -84,15 +90,15 @@ while(cap.isOpened()):
         pipeline.update(res_face_detection.bounding_boxes, res_facial_landmarks_estimation.facial_landmarks, res_facial_recognition)
 
         pipeline.visualize(image)
-        cv2.putText(image, 'Recognition stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
+        #cv2.putText(image, 'Recognition stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0))
 
 
     elif pipeline.regime == 'detection':
         print('     ---- Detection stage   ----     ')
 
         print('Face detection')
-        face_bboxes, face_bboxes_confidences = face_detector.predict(image)
-        res_face_detection = face_detector.get_result()
+        face_bboxes, face_bboxes_confidences = face_detector_mtcnn.predict(image)
+        res_face_detection = face_detector_mtcnn.get_result()
         #face_detector.visualize(image, face_bboxes, face_bboxes_confidences, color=(0, 0, 255))
 
         print('Initialize tracking...')
@@ -106,7 +112,7 @@ while(cap.isOpened()):
         pipeline.match(res_face_detection.bounding_boxes, res_facial_landmarks_estimation.facial_landmarks)
 
         pipeline.visualize(image)
-        cv2.putText(image, 'Detection stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255))
+        #cv2.putText(image, 'Detection stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255))
 
 
     elif pipeline.regime == 'tracking':
@@ -114,16 +120,18 @@ while(cap.isOpened()):
 
         print('Face tracking')
         face_bboxes, face_bboxes_confidences = multi_faces_tracker.update(image)
+        res_face_detection = multi_faces_tracker.get_result()
         #face_detector.visualize(image, face_bboxes, face_bboxes_confidences, color=(0, 255, 0))
 
         print('Facial landmarks estimation')
         facial_landmarks, facial_landmarks_confidences = facial_landmarks_estimator.predict(image, face_bboxes, face_bboxes_confidences)
+        res_facial_landmarks_estimation = facial_landmarks_estimator.get_result()
         #facial_landmarks_estimator.visualize(image, facial_landmarks, facial_landmarks_confidences, color=(0, 255, 0))
 
-        pipeline.match()
+        pipeline.match(res_face_detection.bounding_boxes, res_facial_landmarks_estimation.facial_landmarks)
 
         pipeline.visualize(image)
-        cv2.putText(image, 'Tracking stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
+        #cv2.putText(image, 'Tracking stage', (5, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
 
     pipeline.update_regime()
 
@@ -134,6 +142,7 @@ while(cap.isOpened()):
 
     # Display the resulting frame
     cv2.imshow('Frame', frame)
+    out.write(frame)
 
     # Press Q on keyboard to  exit
     if cv2.waitKey(25) & 0xFF == ord('q'):
@@ -141,5 +150,6 @@ while(cap.isOpened()):
 
 # When everything done, release the video capture object
 cap.release()
+out.release()
 # Closes all the frames
 cv2.destroyAllWindows()

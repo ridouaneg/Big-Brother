@@ -91,6 +91,8 @@ class Pipeline:
         elif self.regime == 'tracking':
             color = (0, 255, 0)
 
+        color = (255, 0, 0)
+
 
         for human in self.humans:
 
@@ -101,11 +103,11 @@ class Pipeline:
 
             cv2.putText(image, id, (xmin, ymin), cv2.FONT_HERSHEY_SIMPLEX, 1, color)
             cv2.rectangle(image, (xmin, ymin), (xmax, ymax), color, 1)
-            cv2.putText(image, str(round(score, 2)), (xmax, ymin), cv2.FONT_HERSHEY_SIMPLEX, 1, color)
+            #cv2.putText(image, str(round(score, 2)), (xmax, ymin), cv2.FONT_HERSHEY_SIMPLEX, 1, color)
 
             landmarks, confidences = \
                     human.facial_landmarks_path[-1].landmarks, \
                     human.facial_landmarks_path[-1].confidence
             for j in range(68):
                 x, y = landmarks[j]
-                cv2.circle(image, (int(x), int(y)), 2, color, -1)
+                cv2.circle(image, (int(x), int(y)), 1, color, -1)

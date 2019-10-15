@@ -129,7 +129,7 @@ class ObjectDetector:
 
 class FaceDetector(ObjectDetector):
 
-    def __init__(self, model_path='HOG', threshold=0.25, input_size=(512, 1024, 3), do_timing=False):
+    def __init__(self, model_path='HOG', threshold=0.50, input_size=(512, 1024, 3), do_timing=False):
         super().__init__(threshold, input_size, do_timing)
         self.model_path = model_path
         self.set_model(model_path)

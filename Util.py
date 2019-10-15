@@ -70,6 +70,6 @@ class Util:
 
         union = bbox1_area + bbox2_area - intersection
 
-        IoU = intersection / union
+        IoU = intersection / (union + 1e-5)
 
         return IoU

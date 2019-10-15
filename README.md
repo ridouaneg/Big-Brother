@@ -2,7 +2,7 @@
 
 Facial recognition of people from a video stream.
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/P8l9K7zncbE/0.jpg)](https://youtu.be/P8l9K7zncbE)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/EuzzjI9s7yE/hqdefault.jpg)]( https://youtu.be/EuzzjI9s7yE)
 
 
 ## Why Big Brother ?
