@@ -22,6 +22,8 @@ image -> face detection, landmarks estimation -> feature extraction -> matching 
 - Tracking : opencv algorithms
 - Matching : L2 distance, Hungarian algorithm
 
+![alt text](https://raw.githubusercontent.com/ridouaneg/Big-Brother/master/tsne.jpg)
+
 
 ## How to use it ?
 
@@ -40,7 +42,6 @@ image -> face detection, landmarks estimation -> feature extraction -> matching 
 
 ## To do
 
-- data visualization of the feature space with t-SNE
 - make it work in open database (no pre-defined set of people to recognize)
 - code profiling and optimization to real-time (jit, cuda, c++)
 - use binary tree to efficiently process the database

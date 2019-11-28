@@ -176,7 +176,6 @@ class FaceDetector(ObjectDetector):
                 confidences.append(confidence)
 
         elif self.model_path == 'MTCNN':
-            print(model_output)
             output_bounding_boxes = [model_output[i]['box'] for i in range(len(model_output))]
             output_confidences = [[model_output[i]['confidence']] for i in range(len(model_output))]
 
