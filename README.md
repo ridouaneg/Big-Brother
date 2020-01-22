@@ -43,9 +43,7 @@ image -> face detection, landmarks estimation -> feature extraction -> matching 
 ## To do
 
 - make it work in open database (no pre-defined set of people to recognize)
-- code profiling and optimization to real-time (jit, cuda, c++)
 - use binary tree to efficiently process the database
-- mobile/web app (flask?)
 - arcface + retinaface
 
 

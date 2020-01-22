@@ -1,0 +1,14 @@
+Preprocessing:
+  data_path: ./data/known_peoples
+  output_path: ./data/known_peoples.pkl
+Main:
+  known_peoples_pkl: ./data/known_peoples.pkl
+  detection_model: HOG
+  det_tracking_model: HOG
+  tracking_model: CSRT
+  rec_frequency: 0.10
+  video_file: 0
+  resolution:
+    - 640
+    - 480
+  do_timing: True

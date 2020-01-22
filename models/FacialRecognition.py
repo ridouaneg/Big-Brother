@@ -2,6 +2,8 @@ import numpy as np
 from Util import Util
 import time
 
+from sklearn.neighbors import KNeighborsClassifier
+
 class FacialRecognizer:
 
     def __init__(self, known_peoples_descriptors=None, known_peoples_names=None, model_path='./dlib_face_recognition_resnet_model_v1.dat', threshold=0.60, input_size=(512, 1024, 3), do_timing=False):

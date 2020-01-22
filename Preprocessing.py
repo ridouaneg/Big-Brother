@@ -11,9 +11,14 @@ face_detector = FaceDetector(model_path='HOG')
 facial_landmarks_estimator = FacialLandmarksEstimator()
 facial_recognizer = FacialRecognizer()
 
+### CONFIG
+import yaml
+cfg = yaml.load(open('./config.yml', 'r'))['Preprocessing']
 
-data_path = './data/known_peoples'
-output_path = './data/known_peoples.csv'
+data_path = str(cfg['data_path'])
+output_path = str(cfg['output_path'])
+#data_path = './data/known_peoples'
+#output_path = './data/known_peoples.pkl'
 
 print('Pre-processing of images in', data_path)
 
@@ -25,7 +30,7 @@ for file in os.listdir(data_path):
     print('Processing', file)
     image = Util.load_image(os.path.join(data_path, file))
 
-    name = file[:-4]
+    name = file.split('.')[0]
 
     faces, face_bboxes_confidences = face_detector.predict(image)
     shapes, _ = facial_landmarks_estimator.predict(image, faces, face_bboxes_confidences)

@@ -11,25 +11,45 @@ from models.FacialRecognition import FacialRecognizer
 from Pipeline import Pipeline
 
 
+##### CONFIG
+import yaml
+cfg = yaml.load(open('./config.yml', 'r'))['Main']
+
+known_peoples_pkl = str(cfg['known_peoples_pkl'])
+detection_model = str(cfg['detection_model'])
+det_tracking_model = str(cfg['det_tracking_model'])
+tracking_model = str(cfg['tracking_model'])
+rec_frequency = float(cfg['rec_frequency'])
+video_file = int(cfg['video_file'])
+resolution = tuple([int(x) for x in cfg['resolution']])
+do_timing = bool(cfg['do_timing'])
+#known_peoples_pkl = './data/known_peoples.pkl'
+#detection_model = 'HOG'
+#det_tracking_model = 'HOG'
+#tracking_model = 'CSRT'
+#rec_frequency = 0.01
+#video_file = 0
+#resolution = (640, 480)
+#do_timing = True
+
+
 ##### RECOGNITION DATASET
 # Import recognition dataset
-df = pd.read_pickle('./data/known_peoples.csv')
+df = pd.read_pickle(known_peoples_pkl)
 known_peoples_descriptors = np.array([df['descriptor'].values[i] for i in range(df['descriptor'].values.shape[0])])
 known_peoples_names = df['name'].values
 
+
 ##### MODELS
 # Set models
-face_detector = FaceDetector(model_path='MTCNN', input_size=(480, 640, 3), do_timing=True)
-facial_landmarks_estimator = FacialLandmarksEstimator(do_timing=True)
-multi_faces_tracker = MultiObjectTracker(model_path='CSRT', do_timing=True)
-facial_recognizer = FacialRecognizer(known_peoples_descriptors, known_peoples_names, do_timing=True)
+face_detector = FaceDetector(model_path=detection_model, input_size=(resolution[1], resolution[0], 3), do_timing=do_timing)
+facial_landmarks_estimator = FacialLandmarksEstimator(do_timing=do_timing)
+multi_faces_tracker = MultiObjectTracker(model_path=tracking_model, do_timing=do_timing)
+face_det_tracker = FaceDetector(model_path=det_tracking_model, input_size=(resolution[1], resolution[0], 3), do_timing=do_timing)
+facial_recognizer = FacialRecognizer(known_peoples_descriptors, known_peoples_names, do_timing=do_timing)
 
 
 ##### VIDEO PARAMETERS
-# Set configuration
-video_file = 0
-resolution = (640, 480)
-
 # Open video file
 cap = cv2.VideoCapture(video_file)
 
@@ -41,7 +61,7 @@ if (cap.isOpened() == False):
 
 ###### MAIN LOOP
 frame_number = 0
-pipeline = Pipeline(regime='recognition', frequency=12)
+pipeline = Pipeline(regime='recognition', frequency=int(rec_frequency * 100))
 
 # Read until video is completed
 while(cap.isOpened()):
@@ -91,8 +111,8 @@ while(cap.isOpened()):
         print('     ---- Detection stage   ----     ')
 
         print('Face detection')
-        face_bboxes, face_bboxes_confidences = face_detector.predict(image)
-        res_face_detection = face_detector.get_result()
+        face_bboxes, face_bboxes_confidences = face_det_tracker.predict(image)
+        res_face_detection = face_det_tracker.get_result()
         #face_detector.visualize(image, face_bboxes, face_bboxes_confidences, color=(0, 0, 255))
 
         print('Initialize tracking...')
