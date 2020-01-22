@@ -16,9 +16,9 @@ The pipeline is as follows :
 
 image -> face detection, landmarks estimation -> feature extraction -> matching with database features
 
-- Face detection : HOG, MTCNN, RetinaFace (soon)
+- Face detection : HOG, MTCNN
 - Facial landmarks estimation : dlib algorithms
-- Feature extraction : FaceNet, ArcFace (soon)
+- Feature extraction : FaceNet
 - Tracking : opencv algorithms
 - Matching : L2 distance, Hungarian algorithm
 
@@ -38,6 +38,8 @@ image -> face detection, landmarks estimation -> feature extraction -> matching 
 3. Add images in the './data/known_peoples/' : each image should only contain ONE face, with the name of the person as name of the image
 4. Launch ./Preprocessing.py : it will create 'dataset.csv' in './data/', this file contains a feature vector for each person in the dataset and the corresponding name
 5. Launch ./Main.py
+
+N.B. : The config file config.yml allows you to customize the algorithm by changing the models used, the frequency of recognition vs. tracking, etc.
 
 
 ## To do
